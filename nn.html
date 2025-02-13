@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Amor em Pixels</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #ff8787;
+            --accent-color: #ffd7d7;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .hero-slider {
+            height: 90vh;
+        }
+
+        .carousel-item {
+            height: 90vh;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .carousel-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+        }
+
+        .carousel-caption {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+        }
+
+        .memory-card {
+            transition: all 0.5s ease;
+            border: none;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .memory-card:hover {
+            transform: translateY(-15px) rotate(2deg);
+            box-shadow: 0 15px 40px rgba(255,107,107,0.2);
+        }
+
+        .love-counter {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(255,107,107,0.2);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+
+        .love-message {
+            background: linear-gradient(135deg, #fff5f5, #fff0f0);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .love-message:hover {
+            transform: scale(1.02);
+        }
+
+        .love-message::before {
+            content: '❤️';
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            font-size: 3rem;
+            opacity: 0.1;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .video-section {
+            background: linear-gradient(135deg, #000, #1a1a1a);
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .declaration-modal .modal-content {
+            background: linear-gradient(135deg, #fff5f5, #fff0f0);
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .heart-beat {
+            animation: heartBeat 1.5s infinite;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Modal de Declaração -->
+    <div class="modal fade declaration-modal" id="loveModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center p-5">
+                    <h3 class="mb-4">❤️</h3>
+                    <h4 class="mb-4">Meu Amor</h4>
+                    <p class="lead">Cada dia ao seu lado é uma nova aventura, uma nova chance de te amar ainda mais...</p>
+                    <div class="heart-beat display-1 my-4">❤️</div>
+                    <p>Com todo meu amor,</p>
+                    <p class="fw-bold">Seu Amor</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">💑 Nosso Amor</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#inicio">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#nossa-historia">Nossa História</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#momentos">Momentos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#galeria">Galeria</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Slider -->
+<div id="heroSlider" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="2"></button>
+    </div>
+
+    <div class="carousel-inner">
+        <!-- Slide 1 -->
+        <div class="carousel-item active" style="background-image: url('fotos/foto1.jpg'); background-size: cover; background-position: center;">
+            <div class="carousel-caption animate__animated animate__fadeInUp">
+                <h1 class="display-4 fw-bold">Nosso Amor em Pixels</h1>
+                <p class="lead">Cada momento especial eternizado aqui</p>
+            </div>
+        </div>
+
+        <!-- Slide 2 (Substituindo o vídeo por uma imagem) -->
+        <div class="carousel-item" style="background-image: url('fotos/foto2.jpg'); background-size: cover; background-position: center;">
+            <div class="carousel-caption animate__animated animate__fadeInUp">
+                <h1 class="display-4 fw-bold">Juntos para Sempre</h1>
+                <p class="lead">Nossa jornada repleta de amor</p>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-item" style="background-image: url('https://amorcronico.wordpress.com/wp-content/uploads/2016/08/casal-perfeito.jpg'); background-size: cover; background-position: center;">
+            <div class="carousel-caption animate__animated animate__fadeInUp">
+                <h1 class="display-4 fw-bold">Para Sempre Nós</h1>
+                <p class="lead">Um amor que cresce a cada dia</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botões de Navegação -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroSlider" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroSlider" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+
+    <!-- Mensagens de Amor -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title mb-5">Mensagens do Coração</h2>
+            <div class="row g-4">
+                <div class="col-md-4 scroll-reveal">
+                    <div class="love-message">
+                        <h5>Primeiro Olhar</h5>
+                        <p>"Desde o primeiro momento em que te vi, soube que minha vida mudaria para sempre..."</p>
+                    </div>
+                </div>
+                <div class="col-md-4 scroll-reveal">
+                    <div class="love-message">
+                        <h5>Nosso Amor</h5>
+                        <p>"Cada dia ao seu lado é uma nova aventura, uma nova chance de te amar ainda mais..."</p>
+                    </div>
+                </div>
+                <div class="col-md-4 scroll-reveal">
+                    <div class="love-message">
+                        <h5>Para Sempre</h5>
+                        <p>"Você é meu presente e meu futuro, meu amor eterno..."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nossa História Section -->
+    <section id="nossa-historia" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title mb-5">Nossa História</h2>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREDo0ByQ5s7kAfQzmL9FqScktUd_M6-fTFyA&s" alt="Nossa História" class="img-fluid rounded shadow">
+                </div>
+                <div class="col-md-6">
+                    <div class="love-counter mb-4">
+                        <h3 class="text-center mb-3">Nosso Amor em Números</h3>
+                        <div class="row text-center">
+                            <div class="col">
+                                <h4 id="daysCounter">365</h4>
+                                <p>Dias Juntos</p>
+                            </div>
+                            <div class="col">
+                                <h4 id="memoriesCounter">100</h4>
+                                <p>Memórias</p>
+                            </div>
+                            <div class="col">
+                                <h4 id="placesCounter">20</h4>
+                                <p>Lugares</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="lead">Nossa história começou em um dia especial...</p>
+                    <p>Desde então, cada momento tem sido único e mágico...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Momentos Especiais -->
+    <section id="momentos" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center section-title mb-5">Momentos Especiais</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card memory-card h-100">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREDo0ByQ5s7kAfQzmL9FqScktUd_M6-fTFyA&s" class="card-img-top" alt="Momento 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Primeiro Encontro</h5>
+                            <p class="card-text">Aquele dia mágico que mudou nossas vidas...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card memory-card h-100">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREDo0ByQ5s7kAfQzmL9FqScktUd_M6-fTFyA&s" class="card-img-top" alt="Momento 2">
+                        <div class="card-body">
+                            <h5 class="card-title">Nossa Primeira Viagem</h5>
+                            <p class="card-text">Descobrindo o mundo juntos...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card memory-card h-100">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREDo0ByQ5s7kAfQzmL9FqScktUd_M6-fTFyA&s" class="card-img-top" alt="Momento 3">
+                        <div class="card-body">
+                            <h5 class="card-title">Momentos Especiais</h5>
+                            <p class="card-text">Cada dia é uma nova aventura...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Vídeos -->
+    <section class="video-section">
+        <div class="container">
+            <h2 class="text-center section-title mb-5">Nossos Momentos em Vídeo</h2>
+            <div class="row g-4">
+                <div class="col-md-6 scroll-reveal">
+                    <div class="video-container">
+                        <iframe src="/api/placeholder/800/450" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="col-md-6 scroll-reveal">
+                    <div class="video-container">
+                        <iframe src="/api/placeholder/800/450" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+     
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+        <div class="container text-center">
+            <p>Feito com ❤️ para você</p>
+            <p class="mb-0">© 2025 Nosso Amor em Pixels</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Abrir modal ao carregar a página
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                new bootstrap.Modal(document.getElementById('loveModal')).show();
+            }, 1000);
+        });
+
+        // Animação de contador
+        function animateCounter(elementId, finalNumber) {
+            let current = 0;
+            const element = document.getElementById(elementId);
+            const increment = finalNumber / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                element.textContent = Math.floor(current);
+                if (current >= finalNumber) {
+                    element.textContent = finalNumber;
+                    clearInterval(timer);
+                }
+            }, 20);
+        }
+
+        // Revelar elementos ao scroll
+        const revealElements = document.querySelectorAll('.scroll-reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        revealElements.forEach(element => observer.observe(element));
+
+        // Criar corações flutuantes
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animation = `float ${Math.random() * 3 + 2}s linear`;
+            heart.style.opacity = Math.random() * 0.5 + 0.5;
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 300);
+
+        // Adicionar animação ao carousel
+        document.getElementById('heroSlider').addEventListener('slide.bs.carousel', event => {
+            const caption = event.relatedTarget.querySelector('.carousel-caption');
+            caption.classList.remove('animate__fadeInUp');
+            setTimeout(() => {
+                caption.classList.add('animate__fadeInUp');
+            }, 10);
+        });
+    </script>
+
+    <style>
+        @keyframes float {
+            from {
+                transform: translateY(0vh) rotate(0deg);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</body>
+</html>
